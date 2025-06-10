@@ -2,17 +2,17 @@
 
 ## User API Endpoints
 
-## POST /users/signup
+### POST /users/signup
 
 Creates a new user account with username, email, and password.
 
-### Request
+#### Request
 
 **Method:** `POST`  
 **Endpoint:** `/users/signup`  
 **Content-Type:** `application/json`
 
-### Request Body
+#### Request Body
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -20,26 +20,26 @@ Creates a new user account with username, email, and password.
 | `email` | string | Yes | User's email address |
 | `password` | string | Yes | User's password |
 
-### Validation Rules
+#### Validation Rules
 
-#### Username
+**Username**
 - **Minimum Length:** 4 characters
 - **Uniqueness:** Must be unique across all users
 - **Required:** Yes
 
-#### Email
+**Email**
 - **Format:** Must be a valid email address format
 - **Required:** Yes
 - **Uniqueness:** Must be unique across all users
 
-#### Password
+**Password**
 - **Minimum Length:** 8 characters
 - **Required Characters:**
   - At least one uppercase letter (A-Z)
   - At least one '@' symbol
 - **Required:** Yes
 
-### Request Example
+#### Request Example
 
 ```json
 {
@@ -49,9 +49,9 @@ Creates a new user account with username, email, and password.
 }
 ```
 
-### Response
+#### Response
 
-#### Success Response (201 Created)
+**Success Response (201 Created)**
 
 ```json
 {
@@ -73,9 +73,9 @@ Creates a new user account with username, email, and password.
   - `_id`: Unique user identifier
   - `__v`: Version key (MongoDB)
 
-#### Error Responses (400 Bad Request)
+**Error Responses (400 Bad Request)**
 
-##### Validation Errors
+*Validation Errors*
 
 ```json
 {
@@ -105,7 +105,7 @@ Creates a new user account with username, email, and password.
 }
 ```
 
-##### Duplicate Email Error
+*Duplicate Email Error*
 
 ```json
 {
@@ -113,7 +113,7 @@ Creates a new user account with username, email, and password.
 }
 ```
 
-##### Duplicate Username Error
+*Duplicate Username Error*
 
 ```json
 {
@@ -121,41 +121,88 @@ Creates a new user account with username, email, and password.
 }
 ```
 
- 
+#### Possible Validation Error Messages
+
+| Field | Error Message |
+|-------|---------------|
+| username | "Username must be at least 4 characters long" |
+| email | "Invalid email" |
+| password | "Password must be at least 8 characters long" |
+| password | "Password must contain at least one uppercase letter" |
+| password | "Password must contain at least one @ symbol" |
+
+#### Status Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 201 | Created - User successfully registered |
+| 400 | Bad Request - Validation error or user already exists |
+
+#### Example Usage
+
+**cURL**
+
+```bash
+curl -X POST http://localhost:3000/users/signup \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "john_doe123",
+    "email": "john.doe@example.com",
+    "password": "MySecret@123"
+  }'
 ```
 
+**JavaScript (Fetch)**
 
-## POST /users/login
+```javascript
+const response = await fetch('/users/signup', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    username: 'john_doe123',
+    email: 'john.doe@example.com',
+    password: 'MySecret@123'
+  })
+});
+
+const data = await response.json();
+```
+
+---
+
+### POST /users/login
 
 Authenticates an existing user with email and password.
 
-### Request
+#### Request
 
 **Method:** `POST`  
 **Endpoint:** `/users/login`  
 **Content-Type:** `application/json`
 
-### Request Body
+#### Request Body
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `email` | string | Yes | User's registered email address |
 | `password` | string | Yes | User's password |
 
-### Validation Rules
+#### Validation Rules
 
-#### Email
+**Email**
 - **Format:** Must be a valid email address format
 - **Required:** Yes
 
-#### Password
+**Password**
 - **Minimum Length:** 8 characters
 - **Required Characters:**
   - At least one uppercase letter (A-Z)
   - At least one '@' symbol
 - **Required:** Yes
 
-### Request Example
+#### Request Example
 
 ```json
 {
@@ -164,9 +211,9 @@ Authenticates an existing user with email and password.
 }
 ```
 
-### Response
+#### Response
 
-#### Success Response (200 OK)
+**Success Response (200 OK)**
 
 ```json
 {
@@ -192,9 +239,9 @@ Authenticates an existing user with email and password.
 
 **Cookie:** The JWT token is also set as an HTTP cookie named `token`
 
-#### Error Responses (400 Bad Request)
+**Error Responses (400 Bad Request)**
 
-##### Validation Errors
+*Validation Errors*
 
 ```json
 {
@@ -217,7 +264,7 @@ Authenticates an existing user with email and password.
 }
 ```
 
-##### Authentication Errors
+*Authentication Errors*
 
 ```json
 {
@@ -225,7 +272,7 @@ Authenticates an existing user with email and password.
 }
 ```
 
-##### Server Error
+*Server Error*
 
 ```json
 {
@@ -233,35 +280,80 @@ Authenticates an existing user with email and password.
 }
 ```
 
+#### Possible Validation Error Messages
+
+| Field | Error Message |
+|-------|---------------|
+| email | "Invalid email" |
+| password | "Password must be at least 8 characters long" |
+| password | "Password must contain at least one uppercase letter" |
+| password | "Password must contain at least one @ symbol" |
+
+#### Status Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - User successfully authenticated |
+| 400 | Bad Request - Validation error, invalid credentials, or server error |
+
+#### Example Usage
+
+**cURL**
+
+```bash
+curl -X POST http://localhost:3000/users/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "john.doe@example.com",
+    "password": "MySecret@123"
+  }'
+```
+
+**JavaScript (Fetch)**
+
+```javascript
+const response = await fetch('/users/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    email: 'john.doe@example.com',
+    password: 'MySecret@123'
+  })
+});
+
+const data = await response.json();
+```
 
 ---
 
-## GET /users/profile
+### GET /users/profile
 
 Retrieves the authenticated user's profile information.
 
-### Request
+#### Request
 
 **Method:** `GET`  
 **Endpoint:** `/users/profile`  
 **Authentication:** Required (JWT Token)
 
-### Headers
+#### Headers
 
 | Header | Value | Required | Description |
 |--------|-------|----------|-------------|
 | `Authorization` | `Bearer <token>` | Yes | JWT token from login/signup |
 
-### Request Example
+#### Request Example
 
 ```bash
 curl -X GET http://localhost:3000/users/profile \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
-### Response
+#### Response
 
-#### Success Response (200 OK)
+**Success Response (200 OK)**
 
 ```json
 {
@@ -280,9 +372,9 @@ curl -X GET http://localhost:3000/users/profile \
 
 **Note:** Password field is excluded from the response for security
 
-#### Error Responses
+**Error Responses**
 
-##### Unauthorized (401)
+*Unauthorized (401)*
 
 ```json
 {
@@ -290,7 +382,7 @@ curl -X GET http://localhost:3000/users/profile \
 }
 ```
 
-##### Invalid Token (401)
+*Invalid Token (401)*
 
 ```json
 {
@@ -298,7 +390,7 @@ curl -X GET http://localhost:3000/users/profile \
 }
 ```
 
-##### Token Expired (401)
+*Token Expired (401)*
 
 ```json
 {
@@ -306,4 +398,30 @@ curl -X GET http://localhost:3000/users/profile \
 }
 ```
 
+#### Status Codes
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 | OK - Profile retrieved successfully |
+| 401 | Unauthorized - Missing, invalid, or expired token |
+
+#### Example Usage
+
+**JavaScript (Fetch)**
+
+```javascript
+const response = await fetch('/users/profile', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+  }
+});
+
+const userProfile = await response.json();
+```
+
+---
+
+ 
+ 
  
