@@ -121,37 +121,6 @@ Creates a new user account with username, email, and password.
 }
 ```
 
-#### Possible Validation Error Messages
-
-| Field | Error Message |
-|-------|---------------|
-| username | "Username must be at least 4 characters long" |
-| email | "Invalid email" |
-| password | "Password must be at least 8 characters long" |
-| password | "Password must contain at least one uppercase letter" |
-| password | "Password must contain at least one @ symbol" |
-
-#### Status Codes
-
-| Status Code | Description |
-|-------------|-------------|
-| 201 | Created - User successfully registered |
-| 400 | Bad Request - Validation error or user already exists |
-
-#### Example Usage
-
-**cURL**
-
-```bash
-curl -X POST http://localhost:3000/users/signup \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "john_doe123",
-    "email": "john.doe@example.com",
-    "password": "MySecret@123"
-  }'
-```
-
 ---
 
 ### POST /users/login
