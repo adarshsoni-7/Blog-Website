@@ -152,11 +152,6 @@ curl -X POST http://localhost:3000/users/signup \
   }'
 ```
 
- 
-
- 
-```
-
 ---
 
 ### POST /users/login
