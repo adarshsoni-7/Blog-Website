@@ -229,55 +229,7 @@ Authenticates an existing user with email and password.
 {
     "message": "Internal server error details"
 }
-```
-
-#### Possible Validation Error Messages
-
-| Field | Error Message |
-|-------|---------------|
-| email | "Invalid email" |
-| password | "Password must be at least 8 characters long" |
-| password | "Password must contain at least one uppercase letter" |
-| password | "Password must contain at least one @ symbol" |
-
-#### Status Codes
-
-| Status Code | Description |
-|-------------|-------------|
-| 200 | OK - User successfully authenticated |
-| 400 | Bad Request - Validation error, invalid credentials, or server error |
-
-#### Example Usage
-
-**cURL**
-
-```bash
-curl -X POST http://localhost:3000/users/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "john.doe@example.com",
-    "password": "MySecret@123"
-  }'
-```
-
-**JavaScript (Fetch)**
-
-```javascript
-const response = await fetch('/users/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    email: 'john.doe@example.com',
-    password: 'MySecret@123'
-  })
-});
-
-const data = await response.json();
-```
-
----
+``` 
 
 ### GET /users/profile
 
@@ -349,34 +301,11 @@ curl -X GET http://localhost:3000/users/profile \
 }
 ```
 
-<<<<<<< HEAD
-#### Status Codes
+ 
 
-| Status Code | Description |
-|-------------|-------------|
-| 200 | OK - Profile retrieved successfully |
-| 401 | Unauthorized - Missing, invalid, or expired token |
-
-#### Example Usage
-
-**JavaScript (Fetch)**
-
-```javascript
-const response = await fetch('/users/profile', {
-  method: 'GET',
-  headers: {
-    'Authorization': `Bearer ${localStorage.getItem('token')}`
-  }
-});
-
-const userProfile = await response.json();
-```
-
----
+ 
 
  
  
  
-=======
  
->>>>>>> 1e27782c3d1e122424e9e9d1805cbc5d4cecbc53
