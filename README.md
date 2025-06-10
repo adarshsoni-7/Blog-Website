@@ -152,22 +152,9 @@ curl -X POST http://localhost:3000/users/signup \
   }'
 ```
 
-**JavaScript (Fetch)**
+ 
 
-```javascript
-const response = await fetch('/users/signup', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    username: 'john_doe123',
-    email: 'john.doe@example.com',
-    password: 'MySecret@123'
-  })
-});
-
-const data = await response.json();
+ 
 ```
 
 ---
