@@ -124,4 +124,186 @@ Creates a new user account with username, email, and password.
  
 ```
 
+
+## POST /users/login
+
+Authenticates an existing user with email and password.
+
+### Request
+
+**Method:** `POST`  
+**Endpoint:** `/users/login`  
+**Content-Type:** `application/json`
+
+### Request Body
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `email` | string | Yes | User's registered email address |
+| `password` | string | Yes | User's password |
+
+### Validation Rules
+
+#### Email
+- **Format:** Must be a valid email address format
+- **Required:** Yes
+
+#### Password
+- **Minimum Length:** 8 characters
+- **Required Characters:**
+  - At least one uppercase letter (A-Z)
+  - At least one '@' symbol
+- **Required:** Yes
+
+### Request Example
+
+```json
+{
+    "email": "john.doe@example.com",
+    "password": "MySecret@123"
+}
+```
+
+### Response
+
+#### Success Response (200 OK)
+
+```json
+{
+    "token": "your_token_here",
+    "user": {
+        "_id": "_your_id_here",
+        "username": "john_doe123",
+        "email": "john.doe@example.com",
+        "password": "$2b$10$CEEPUSXbWk3HdY4Ps/xQD.AH/VzrzXFytbLxm3hGjwITAwyJKmYdm",
+        "__v": 0
+    }
+}
+```
+
+**Response Fields:**
+- `token`: JWT authentication token (expires in 24 hours)
+- `user`: User object with complete details
+  - `_id`: Unique user identifier
+  - `username`: The user's username
+  - `email`: The user's email address
+  - `password`: Hashed password (bcrypt)
+  - `__v`: Version key (MongoDB)
+
+**Cookie:** The JWT token is also set as an HTTP cookie named `token`
+
+#### Error Responses (400 Bad Request)
+
+##### Validation Errors
+
+```json
+{
+    "errors": [
+        {
+            "type": "field",
+            "value": "invalid-email",
+            "msg": "Invalid email",
+            "path": "email",
+            "location": "body"
+        },
+        {
+            "type": "field",
+            "value": "weak",
+            "msg": "Password must be at least 8 characters long",
+            "path": "password",
+            "location": "body"
+        }
+    ]
+}
+```
+
+##### Authentication Errors
+
+```json
+{
+    "message": "Invalid email or password"
+}
+```
+
+##### Server Error
+
+```json
+{
+    "message": "Internal server error details"
+}
+```
+
+
+---
+
+## GET /users/profile
+
+Retrieves the authenticated user's profile information.
+
+### Request
+
+**Method:** `GET`  
+**Endpoint:** `/users/profile`  
+**Authentication:** Required (JWT Token)
+
+### Headers
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Authorization` | `Bearer <token>` | Yes | JWT token from login/signup |
+
+### Request Example
+
+```bash
+curl -X GET http://localhost:3000/users/profile \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+```
+
+### Response
+
+#### Success Response (200 OK)
+
+```json
+{
+    "_id": "68484f817e098321fdec9700",
+    "username": "john_doe123",
+    "email": "john.doe@example.com",
+    "__v": 0
+}
+```
+
+**Response Fields:**
+- `_id`: Unique user identifier
+- `username`: The user's username
+- `email`: The user's email address
+- `__v`: Version key (MongoDB)
+
+**Note:** Password field is excluded from the response for security
+
+#### Error Responses
+
+##### Unauthorized (401)
+
+```json
+{
+    "message": "Access denied. No token provided."
+}
+```
+
+##### Invalid Token (401)
+
+```json
+{
+    "message": "Invalid token."
+}
+```
+
+##### Token Expired (401)
+
+```json
+{
+    "message": "Token expired."
+}
+```
+
  

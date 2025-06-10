@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { body } = require("express-validator");
 const UserController = require("../controllers/user.controller")
+const authMiddleware = require("../middlewares/auth.middleware");
 
 
 
@@ -29,7 +30,12 @@ router.post(
       .matches(/(?=.*[@])/)
       .withMessage("Password must contain at least one @ symbol"),
   ],
-  UserController.signInUser);
+    UserController.signInUser);
+  
+
+
+router.get("/profile", authMiddleware.authUser, UserController.getProfile);
+
 
 
 module.exports = router;
