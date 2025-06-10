@@ -256,7 +256,7 @@ Retrieves the authenticated user's profile information.
 
 ```bash
 curl -X GET http://localhost:3000/users/profile \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  -H "Authorization: Bearer your_token_here"
 ```
 
 ### Response
