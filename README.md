@@ -348,7 +348,7 @@ Retrieves the authenticated user's profile information.
 
 ```bash
 curl -X GET http://localhost:3000/users/profile \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+  -H "Authorization: Bearer your_token_here"
 ```
 
 #### Response
@@ -398,6 +398,7 @@ curl -X GET http://localhost:3000/users/profile \
 }
 ```
 
+<<<<<<< HEAD
 #### Status Codes
 
 | Status Code | Description |
@@ -425,3 +426,6 @@ const userProfile = await response.json();
  
  
  
+=======
+ 
+>>>>>>> 1e27782c3d1e122424e9e9d1805cbc5d4cecbc53
