@@ -38,4 +38,8 @@ router.get("/profile", authMiddleware.authUser, UserController.getProfile);
 
 
 
+router.get("/logout", authMiddleware.authUser, UserController.logoutUser);
+
+
+
 module.exports = router;
